@@ -8,6 +8,7 @@ from twitter import Twitter, OAuth, TwitterHTTPError, TwitterStream
 import twitter
 import os
 import time
+import operator
 # Variables that contains the user credentials to access Twitter API 
 ACCESS_TOKEN = '550600686-9bXQC1C0YImFREy4yYyaf5x8iDqzlBdy8mt9n6FA'
 ACCESS_SECRET = 'IGork6Dbls2d5IlqdJHbsSdb1xALuuLDQY4AnS8JG8BO7'
@@ -76,6 +77,10 @@ def gather_words(network, mentioned):
 def maxWords(wordDict):
 	return sorted(wordDict.items(), key=operator.itemgetter(1))
 
+	# response=""
+	# for key, value in sorted(wordDict.iteritems(), key=lambda (k,v): (v,k)):
+	# 	response = response + ", " + ("%s: %s" % (key, value))
+	# return response
 #gather words that hit the "alt" words collected terms
 def alt_words(wordDict):
 	adj_list = {}
@@ -135,8 +140,14 @@ def mentioned_tweets(file_name):
 			remaining = rate_limit_status["resources"]["statuses"]["/statuses/user_timeline"]["remaining"]
 			remaining2 = rate_limit_status["resources"]["users"]["/users/show/:id"]["remaining"]
 			rate_limit_check_remaining -= 1
-			if remaining<5 or remaining2 < 5 or rate_limit_check_remaining<5:
-				print "SLEEP (rate limit)"
+			if remaining<5:
+				print "SLEEP (rate limit of user_timeline)"
+				time.sleep(900)
+			elif remaining2 < 5:
+				print "SLEEP (rate limit of friend list)"
+				time.sleep(900)
+			elif rate_limit_check_remaining<5:
+				print "SLEEP (rate limit of remaining count)"
 				time.sleep(900)
 			username = line.strip('\n')
 			if username not in news_sources2:
@@ -147,9 +158,9 @@ def mentioned_tweets(file_name):
 						if not protected:
 							if username not in read_test:
 								f_used.write(username + '\n')
-								print username
+								#print username
 							iterator = twitter_stream.statuses.user_timeline(screen_name=username,count=32000)
-							#print username
+							print username
 							f = open(file_name + "/"+ username + ".txt", "a")
 							#print "here1"
 							try:
@@ -214,7 +225,16 @@ def protected_check(name):
 
 #determine users in a network who are suspended
 def gather_suspenders():
-	global suspended
+	suspended = []
+	f_write = open("suspended.txt", "a")
+	with open("mentioned_network/names.txt") as f_main:
+		for line in f_main:
+			line = line.strip('\n')
+			sus = suspension_check(line)
+			if sus:
+				print line
+				f_write.write(line + '\n')
+				suspended.append(line)
 	return suspended
 
 
