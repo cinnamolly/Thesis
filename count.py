@@ -199,7 +199,7 @@ def suspension_check(name):
 		#print "Not Suspended"
 		return False
 	except:
-		print "Suspended"
+		print "Suspended: " + name
 		suspended.append(name)
 		return True
 
