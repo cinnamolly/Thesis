@@ -42,7 +42,7 @@ def gather_words(network, mentioned):
 			l = line.strip('\n')
 			#print l
 		else:
-			l = line[:-1]
+			l = line
 		try:
 			#print l
 			file_name = network + '/' + l + '.txt'
