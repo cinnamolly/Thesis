@@ -10,14 +10,14 @@ f = open("cumulative_info.txt", "a")
 while True:
 	# print "gathering nodes from Richard Spencer Network\n"
 	# collect.main()
-	# #collect frequent words from the RS network
-	# print "gathering frequent words\n"
-	# frequent_words = count.gather_words('richardspencer_origin', False)
-	# print count.maxWords(frequent_words)
-	# #gather mentioned names
-	# print "gathering mentioned profiles\n"
-	# mentioned = count.gather_mentioned(frequent_words)
-	# print mentioned
+	#collect frequent words from the RS network
+	print "gathering frequent words\n"
+	frequent_words = count.gather_words('richardspencer_origin', False)
+	print count.maxWords(frequent_words)
+	#gather mentioned names
+	print "gathering mentioned profiles\n"
+	mentioned = count.gather_mentioned(frequent_words)
+	print mentioned
 	print "gathering mentioned tweets\n"
 	file_name = count.mentioned_tweets('mentioned_network')
 	#gather frequent words from the friend network

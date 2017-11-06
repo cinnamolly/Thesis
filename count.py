@@ -225,16 +225,17 @@ def protected_check(name):
 
 #determine users in a network who are suspended
 def gather_suspenders():
-	suspended = []
-	f_write = open("suspended.txt", "a")
-	with open("mentioned_network/names.txt") as f_main:
-		for line in f_main:
-			line = line.strip('\n')
-			sus = suspension_check(line)
-			if sus:
-				print line
-				f_write.write(line + '\n')
-				suspended.append(line)
+	global suspended
+	# suspended = []
+	# f_write = open("suspended.txt", "a")
+	# with open("mentioned_network/names.txt") as f_main:
+	# 	for line in f_main:
+	# 		line = line.strip('\n')
+	# 		sus = suspension_check(line)
+	# 		if sus:
+	# 			print line
+	# 			f_write.write(line + '\n')
+	# 			suspended.append(line)
 	return suspended
 
 
