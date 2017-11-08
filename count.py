@@ -38,39 +38,39 @@ def gather_words(network, mentioned):
 		f_main = open(network+"/names.txt", "r")
 	alt_words = {}
 	for line in f_main:
+		print line
 		if mentioned:
 			l = line.strip('\n')
 			#print l
 		else:
-			l = line
-		try:
+			l = line[:-1]
+		# try:
 			#print l
-			file_name = network + '/' + l + '.txt'
-			#print file_name
-			with open(file_name, "r") as f_temp:
-				read = []
-				for line in f_temp:
-					line = line.strip('\n')
-					read.append(line);
-				#print read
-				for tweet in read:
-					try:
-						#print tweet
-					 	t = json.loads(tweet)
-					 	tweet_text = (t['text']).split()
-					 	for word in tweet_text:
-					 		#remove words that are from the most common list of words in the English language
-					 		if word.lower() not in common_words:
-						 		if word.lower() in alt_words:
-						 			alt_words[word.lower()] = alt_words[word.lower()]+1
-						 		else:
-						 			alt_words[word.lower()] = 1
-						#print alt_words
-					except:
-						print "Interrupted Tweet"
-		except:
-			#print l
-			print "Account Does not Exist"
+		file_name = network + '/' + l + '.txt'
+		#print file_name
+		with open(file_name, "r") as f_temp:
+			read = []
+			for line in f_temp:
+				line = line.strip('\n')
+				read.append(line);
+			for tweet in read:
+				try:
+					print tweet
+				 	t = json.loads(tweet)
+				 	tweet_text = (t['text']).split()
+				 	for word in tweet_text:
+				 		#remove words that are from the most common list of words in the English language
+				 		if word.lower() not in common_words:
+					 		if word.lower() in alt_words:
+					 			alt_words[word.lower()] = alt_words[word.lower()]+1
+					 		else:
+					 			alt_words[word.lower()] = 1
+					#print alt_words
+				except:
+					print "Interrupted Tweet"
+		# except:
+		# 	#print l
+		# 	print "Account Does not Exist"
 	return alt_words
 
 #sort words by # of mentions
