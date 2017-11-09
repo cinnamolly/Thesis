@@ -79,10 +79,10 @@ def main():
         if remaining<5:
             print "Sleeping (Rate Limit)"
             time.sleep(900)
-        p = (twitter_stream.users.show(user_id=person))
-        username = p['screen_name']
-        protected = p['protected']
         try:
+            p = (twitter_stream.users.show(user_id=person))
+            username = p['screen_name']
+            protected = p['protected']
             if not protected:
                 iterator = twitter_stream.statuses.user_timeline(screen_name=username,count=32000)
                 print username
