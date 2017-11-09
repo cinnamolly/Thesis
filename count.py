@@ -41,11 +41,8 @@ def gather_words(network, mentioned):
 		print line
 		if mentioned:
 			l = line.strip('\n')
-			#print l
 		else:
 			l = line[:-1]
-		# try:
-			#print l
 		file_name = network + '/' + l + '.txt'
 		#print file_name
 		with open(file_name, "r") as f_temp:
@@ -112,9 +109,7 @@ def gather_mentioned(wordDict):
 					if ':' in user:
 						user = user[:-1]
 					new_users[user] = value
-					#print new_users[user]
 					if user not in read:
-						#print user
 						f_main.write(user+'\n')
 				except:
 					print "Unable to write"
@@ -168,10 +163,10 @@ def mentioned_tweets(file_name):
 								f2 = open(file_name + "/"+ username  + ".txt", "r")
 								read = []
 								for line in f2:
-									line = line.strip('\n')
-									read.append(line);
+									line = json.loads(line)
+									read.append(line['id']);
 								for tweet in iterator:
-									if tweet not in read:
+									if tweet['id'] not in read:
 										f.write(json.dumps(tweet)+'\n')
 							except Exception as e:
 								print e
