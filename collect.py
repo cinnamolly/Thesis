@@ -93,7 +93,7 @@ def main():
                     f2 = open("richardspencer_origin/"+ username + ".txt", "r")
                     read = []
                     for line in f2:
-                        line = ljson.loads(line)
+                        line = json.loads(line)
                         read.append(line['id']);
                     for tweet in iterator:
                         if tweet['id'] not in read:
