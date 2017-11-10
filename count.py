@@ -52,7 +52,7 @@ def gather_words(network, mentioned):
 				read.append(line);
 			for tweet in read:
 				try:
-					print tweet
+					#print tweet
 				 	t = json.loads(tweet)
 				 	tweet_text = (t['text']).split()
 				 	for word in tweet_text:
@@ -72,7 +72,11 @@ def gather_words(network, mentioned):
 
 #sort words by # of mentions
 def maxWords(wordDict):
-	return sorted(wordDict.items(), key=operator.itemgetter(1))
+	main_dict = {}
+	for item in wordDict:
+		if wordDict[item] > 85:
+			main_dict[item] = wordDict[item]
+	return sorted(main_dict.items(), key=operator.itemgetter(1))
 
 	# response=""
 	# for key, value in sorted(wordDict.iteritems(), key=lambda (k,v): (v,k)):
