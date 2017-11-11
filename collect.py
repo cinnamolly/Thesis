@@ -51,7 +51,7 @@ def main():
         print "Rate Limiting - Sleeping"
         time.sleep(900)
 
-
+    print "CAPTURED" + str(captured)
 
     for x in range(0,2):
         new_captured =[]
@@ -65,7 +65,7 @@ def main():
                 p = (twitter_stream.users.show(user_id=element))
                 username = p['screen_name']
                 protected = p['protected']
-                print username
+                print str(x) + " " + username
                 if not protected:
                     i1 = (twitter_stream.friends.ids(screen_name=username))
                     ids_friends = i1['ids']
@@ -81,7 +81,7 @@ def main():
                 print "Rate Limiting - Sleeping"
                 time.sleep(900)
             captured=new_captured
-
+    print "NOW GOING TO ITERATE"
     for person in ids:
         remaining = rate_limit_status["resources"]["users"]["/users/show/:id"]["remaining"]
         if remaining<5:
@@ -95,6 +95,7 @@ def main():
                 iterator = twitter_stream.statuses.user_timeline(screen_name=username,count=32000)
                 print username
                 if username not in read_main:
+                    print "writing " + username
                     f_main.write(username + "\n")
                 f = open("richardspencer_origin/"+ username + ".txt", "a")
                 try:

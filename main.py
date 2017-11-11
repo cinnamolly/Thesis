@@ -25,8 +25,8 @@ while True:
 		#gather frequent words from the friend network
 		print "gathering frequent words from mentioned profiles\n"
 		mentioned_frequent_words = count.gather_words('mentioned_network', True)
+		mentioned_freq_words = count.maxWords(mentioned_frequent_words)		
 		#print mentioned_freq_words
-		mentioned_freq_words = count.maxWords(mentioned_frequent_words)
 		#gather suspended users
 		print "gathering suspended profiles\n"
 		suspended = count.gather_suspenders()
