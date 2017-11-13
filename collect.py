@@ -81,7 +81,7 @@ def main():
                 print "Rate Limiting - Sleeping"
                 time.sleep(900)
             captured=new_captured
-    print "NOW GOING TO ITERATE"
+    print "NOW GOING TO ITERATE: " + str(len(ids))
     for person in ids:
         remaining = rate_limit_status["resources"]["users"]["/users/show/:id"]["remaining"]
         if remaining<5:
