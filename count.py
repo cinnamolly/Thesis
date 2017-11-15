@@ -136,8 +136,12 @@ def mentioned_tweets(file_name):
 				read_test.append(w)
 			#print read_test
 			rate_limit_status = twitter_stream.application.rate_limit_status()
-			remaining = rate_limit_status["resources"]["statuses"]["/statuses/user_timeline"]["remaining"]
-			remaining2 = rate_limit_status["resources"]["users"]["/users/show/:id"]["remaining"]
+			try:
+				remaining = rate_limit_status["resources"]["statuses"]["/statuses/user_timeline"]["remaining"]
+				remaining2 = rate_limit_status["resources"]["users"]["/users/show/:id"]["remaining"]
+			except Exception as e:
+				print e
+				time.sleep(900)
 			rate_limit_check_remaining -= 1
 			if remaining<5:
 				print "SLEEP (rate limit of user_timeline)"
@@ -175,8 +179,10 @@ def mentioned_tweets(file_name):
 							except Exception as e:
 								print e
 								print "Unable to write"
-				except:
-					print "Username does not exist"
+				except Exception as e:
+					print e
+					time.sleep(900)
+
 				f_used.close;
 
 #check if a user has been suspended

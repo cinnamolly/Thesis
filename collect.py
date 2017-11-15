@@ -64,7 +64,7 @@ def main():
             p = (twitter_stream.users.show(user_id=element))
             username = p['screen_name']
             protected = p['protected']
-            print str(x) + " " + username
+            print username
             if not protected:
                 i1 = (twitter_stream.friends.ids(screen_name=username))
                 ids_friends = i1['ids']
