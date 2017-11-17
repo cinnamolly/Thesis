@@ -26,92 +26,63 @@ def main():
     for line in f_main_read:
         line = line.strip('\n')
         read_main.append(line);
+    screen_names = []
     ids = [402181258]
-    captured = []
+    marked = []
     follow_trump = []
-    try:
-        rate_limit_status = twitter_stream.application.rate_limit_status()
-        remaining = rate_limit_status["resources"]["users"]["/users/show/:id"]["remaining"]
-        if remaining<5:
-            print "Sleeping (Rate Limit)"
-            time.sleep(900)
-        username = (twitter_stream.users.show(user_id=402181258))['screen_name']
-        print username
-        i1 = (twitter_stream.friends.ids(screen_name=username))
-        ids_friends = i1['ids']
-        i2 = (twitter_stream.followers.ids(screen_name=username))
-        ids_followers = i2['ids']
-        for id1 in ids_friends:
-            if id1 in ids_followers:
-                if id1 not in ids:
-                    ids.append(id1)
-                    captured.append(id1)
-    except Exception as e:
-        print e
-        print "Rate Limiting - Sleeping"
-        time.sleep(900)
+    limit = 0;
 
-    print "CAPTURED" + str(captured)
-
-    for x in range(0,2):
-        new_captured =[]
-        for element in captured:
-            try:
+    #get list of names 2 levels deep
+    #for x in range(0,2):
+        #print x
+    for person in ids:
+        try:
+            #print person
+            if limit < 1000:
+                limit+=1
                 rate_limit_status = twitter_stream.application.rate_limit_status()
                 remaining = rate_limit_status["resources"]["users"]["/users/show/:id"]["remaining"]
                 if remaining<5:
                     print "Sleeping (Rate Limit)"
                     time.sleep(900)
-                p = (twitter_stream.users.show(user_id=element))
-                username = p['screen_name']
-                protected = p['protected']
+                username = (twitter_stream.users.show(user_id=person))['screen_name']
                 print username
-                if not protected:
-                    i1 = (twitter_stream.friends.ids(screen_name=username))
-                    ids_friends = i1['ids']
-                    i2 = (twitter_stream.followers.ids(screen_name=username))
-                    ids_followers = i2['ids']
-                    for id1 in ids_friends:
-                        if id1 in ids_followers:
-                            if id1 not in ids:
-                                ids.append(id1)
-                                new_captured.append(id1)
-            except Exception as e:
-                print e
-                print "Rate Limiting - Sleeping"
-                time.sleep(900)
-            captured=new_captured
-    print "NOW GOING TO ITERATE: " + str(len(ids))
-    id_length = len(ids)
-    for person in ids:
-        remaining = rate_limit_status["resources"]["users"]["/users/show/:id"]["remaining"]
-        if remaining<5:
-            print "Sleeping (Rate Limit)"
-            time.sleep(900)
-        try:
-            id_length-=1
-            p = (twitter_stream.users.show(user_id=person))
+                i1 = (twitter_stream.friends.ids(screen_name=username))
+                ids_friends = i1['ids']
+                i2 = (twitter_stream.followers.ids(screen_name=username))
+                ids_followers = i2['ids']
+                if 25073877 in ids_friends or 25073877 in ids_followers:
+                    follow_trump.append(username)
+                for id1 in ids_friends:
+                    if id1 in ids_followers:
+                        if id1 not in ids:
+                            ids.append(id1)
+                #marked.append(id_num)
+            p = (twitter_stream.users.show(user_id=id_num))
             username = p['screen_name']
             protected = p['protected']
+            marked.append(id_num)
             if not protected:
+            #screen_names.append(username['screen_name'])
                 iterator = twitter_stream.statuses.user_timeline(screen_name=username,count=32000)
+                print username
                 if username not in read_main:
-                    print "writing " + username + "NUM LEFT" + str(id_length)
+                    screen_names.append(username)
                     f_main.write(username + "\n")
                 f = open("richardspencer_origin/"+ username + ".txt", "a")
                 try:
                     f2 = open("richardspencer_origin/"+ username + ".txt", "r")
                     read = []
                     for line in f2:
-                        line = json.loads(line)
-                        read.append(line['id']);
+                        line = line.strip('\n')
+                        read.append(line);
                     for tweet in iterator:
-                        if tweet['id'] not in read:
+                        if tweet not in read:
                             f.write(json.dumps(tweet)+'\n')
                 except:
                     for tweet in iterator:
                         f.write(json.dumps(tweet)+'\n')
-            f.close()
+                f.close()
         except Exception as e:
             print e
             print "Rate Limiting - Sleeping"
