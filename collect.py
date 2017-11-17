@@ -45,7 +45,8 @@ def main():
                 if remaining<5:
                     print "Sleeping (Rate Limit)"
                     time.sleep(900)
-                username = (twitter_stream.users.show(user_id=person))['screen_name']
+                info = (twitter_stream.users.show(user_id=person))
+                username = info['screen_name']
                 print username
                 i1 = (twitter_stream.friends.ids(screen_name=username))
                 ids_friends = i1['ids']
@@ -58,10 +59,7 @@ def main():
                         if id1 not in ids:
                             ids.append(id1)
                 #marked.append(id_num)
-            p = (twitter_stream.users.show(user_id=id_num))
-            username = p['screen_name']
-            protected = p['protected']
-            marked.append(id_num)
+            protected = info['protected']
             if not protected:
             #screen_names.append(username['screen_name'])
                 iterator = twitter_stream.statuses.user_timeline(screen_name=username,count=32000)
