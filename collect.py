@@ -47,23 +47,25 @@ def main():
                     time.sleep(900)
                 info = (twitter_stream.users.show(user_id=person))
                 username = info['screen_name']
+                protected = info['protected']
                 print username
-                i1 = (twitter_stream.friends.ids(screen_name=username))
-                ids_friends = i1['ids']
-                i2 = (twitter_stream.followers.ids(screen_name=username))
-                ids_followers = i2['ids']
-                if 25073877 in ids_friends or 25073877 in ids_followers:
-                    follow_trump.append(username)
-                for id1 in ids_friends:
-                    if id1 in ids_followers:
-                        if id1 not in ids:
-                            ids.append(id1)
+                print protected
+                if not protected:
+                    i1 = (twitter_stream.friends.ids(screen_name=username))
+                    ids_friends = i1['ids']
+                    i2 = (twitter_stream.followers.ids(screen_name=username))
+                    ids_followers = i2['ids']
+                    if 25073877 in ids_friends or 25073877 in ids_followers:
+                        follow_trump.append(username)
+                    for id1 in ids_friends:
+                        if id1 in ids_followers:
+                            if id1 not in ids:
+                                ids.append(id1)
                 #marked.append(id_num)
-            protected = info['protected']
             if not protected:
+                print ("not protected")
             #screen_names.append(username['screen_name'])
                 iterator = twitter_stream.statuses.user_timeline(screen_name=username,count=32000)
-                print username
                 if username not in read_main:
                     screen_names.append(username)
                     f_main.write(username + "\n")
