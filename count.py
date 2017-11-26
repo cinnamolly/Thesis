@@ -85,7 +85,7 @@ def gather_words(network, mentioned):
 def maxWords(wordDict):
 	main_dict = {}
 	for item in wordDict:
-		if wordDict[item] > 85:
+		if wordDict[item] > 100:
 			main_dict[item] = wordDict[item]
 	return sorted(main_dict.items(), key=operator.itemgetter(1))
 
