@@ -27,6 +27,9 @@ while True:
 	mentioned_freq_words = count.maxWords(mentioned_frequent_words)		
 	#print mentioned_freq_words
 	#gather suspended users
+	# print "gathering trump profiles\n"
+	# c, profiles = count.gather_suspenders()
+	print suspended
 	print "gathering suspended profiles\n"
 	suspended = count.gather_suspenders()
 	print suspended

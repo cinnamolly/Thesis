@@ -10,10 +10,10 @@ import os
 import time
 import operator
 # Variables that contains the user credentials to access Twitter API 
-CONSUMER_KEY = ['0geqL4U1pwfC8JGbXilB4RtNU','CRMtmyS4l0abey0COyV4g5I9J','8LVnYvp8gpX1AdMKwq541TWqf','4aj3DnlWh9jTqpyedzqNjFGls','hzImkAb1PClT6afQy0miQCvlo','epUENTX8TVuY2kRviGYhSHIiK', 'lo9pjYRvU5P9b3hnnwx4pvP4i']
-CONSUMER_SECRET = ['ZkGLWeTCfJ2qyHwleOMs4Dnvc7cm1TGR4UZItw8L5iS7AYj0vT','lmYM48LEpTvUGIcPYRqxYWtRBJoxUzS9SzHlNj9U374O0Axxm','cSOxoVGn0XxQGuJSOwQzmsDkXIaIKGCqgD28MSfetseApr5UcC','8WCMnlqFtxbJYKpOqj9caAhLO4ELsa2Vqx1bgaeRr957gWn5wf','ZMFYHq16vBTtP5EHgsmrRRXoQquBEjWQsGH1SdeW985LNEHhhA','8NbtV0BGzfhxiSEOTRRi47VYi5fiwt5JK8p3YpW93SdyrgjHpW', 'ND9osNijbp57y6rO9YzThH9nSJBdRD7sdPjlqo9guUZgB9d94U']
-ACCESS_TOKEN = ['550600686-9bXQC1C0YImFREy4yYyaf5x8iDqzlBdy8mt9n6FA','29587323-4QDgoil3LrsyMejgYXqOtoDsX1tNGiil8zcQoW4dc','1081485739-LPQkkIOCiQexP6NCfXlltzeJoyqsECay60UTYTS','188476718-H3viJkcqpkejXT4yezIdFdliu6m4bQNruIMQIDvt','934598576709296128-GRb4TYnCQtQjj42UOIFntlucBCskjkQ','345699798-EmDdmFBuFiiL25RCCaM5QZpFvXIEh7h7fsXT5jOy','934509107767332867-uOYfgJUPtaUz98UzuyIhVfNhly71QfX']
-ACCESS_SECRET = ['IGork6Dbls2d5IlqdJHbsSdb1xALuuLDQY4AnS8JG8BO7','vVatIUyXz0mQ87Ro2amYdHFR7KvkyeDR8cCGEtcjsDvvT','5PZU28sXW34UDbuJpZsbT23IFEtOaMdl1JbynDj4fFKxI','3vuLrTo2MEMeQvgOVJIAUVUwyqVileCeCPfDKkFahuhcV','q7UFYVObDqVTsXgHySu0nlkUzbSJ8fdlQhuqQGIiw26wq','Q3w6GYecIdFbY3JNW2piwWTWbewlsFGre5DvVCCIL7X13','GG6sGk9I0pq8Gu9m25fRtBHBPZidObESAPxvBztsJKHN4']
+CONSUMER_KEY = ['mJSzhwpofJc5V2Az4NqRz2b18','0geqL4U1pwfC8JGbXilB4RtNU','1y1NlgyVoG5YKCszekhKdMTlv','8LVnYvp8gpX1AdMKwq541TWqf','4aj3DnlWh9jTqpyedzqNjFGls','hzImkAb1PClT6afQy0miQCvlo','epUENTX8TVuY2kRviGYhSHIiK', 'lo9pjYRvU5P9b3hnnwx4pvP4i']
+CONSUMER_SECRET = ['SiWhNw9gkFwzl68FTbAhkBsjAyzrN72eavmIEDZ19EbKwoXYj4','ZkGLWeTCfJ2qyHwleOMs4Dnvc7cm1TGR4UZItw8L5iS7AYj0vT','vMwghzFmX3VU1mgXvoL8gYYD4LCPNiP6nFQqQ6vcDpMYqFK8Hu','cSOxoVGn0XxQGuJSOwQzmsDkXIaIKGCqgD28MSfetseApr5UcC','8WCMnlqFtxbJYKpOqj9caAhLO4ELsa2Vqx1bgaeRr957gWn5wf','ZMFYHq16vBTtP5EHgsmrRRXoQquBEjWQsGH1SdeW985LNEHhhA','8NbtV0BGzfhxiSEOTRRi47VYi5fiwt5JK8p3YpW93SdyrgjHpW', 'ND9osNijbp57y6rO9YzThH9nSJBdRD7sdPjlqo9guUZgB9d94U']
+ACCESS_TOKEN = ['824623444046348288-E5zdV6s9gSRb3kxKzp5dGdhc4chgInp','550600686-9bXQC1C0YImFREy4yYyaf5x8iDqzlBdy8mt9n6FA','550600686-WINrIOdvm1DZSXyKPeSF1bWkSQT5Bp7hYcJDL1fc','1081485739-LPQkkIOCiQexP6NCfXlltzeJoyqsECay60UTYTS','188476718-H3viJkcqpkejXT4yezIdFdliu6m4bQNruIMQIDvt','934598576709296128-GRb4TYnCQtQjj42UOIFntlucBCskjkQ','345699798-EmDdmFBuFiiL25RCCaM5QZpFvXIEh7h7fsXT5jOy','934509107767332867-uOYfgJUPtaUz98UzuyIhVfNhly71QfX']
+ACCESS_SECRET = ['9XMM3CrVFgTVr7eWTLX72UHm43BOLusj51HdB8A4hIoDv','IGork6Dbls2d5IlqdJHbsSdb1xALuuLDQY4AnS8JG8BO7','gEWLt5aybIedxUlSnzUtntLZd4PGhjxytTdf9FtiZMdlP','5PZU28sXW34UDbuJpZsbT23IFEtOaMdl1JbynDj4fFKxI','3vuLrTo2MEMeQvgOVJIAUVUwyqVileCeCPfDKkFahuhcV','q7UFYVObDqVTsXgHySu0nlkUzbSJ8fdlQhuqQGIiw26wq','Q3w6GYecIdFbY3JNW2piwWTWbewlsFGre5DvVCCIL7X13','GG6sGk9I0pq8Gu9m25fRtBHBPZidObESAPxvBztsJKHN4']
 
 oauth = OAuth(ACCESS_TOKEN[0], ACCESS_SECRET[0], CONSUMER_KEY[0], CONSUMER_SECRET[0])
 
@@ -31,15 +31,19 @@ rate_limit_check_remaining = 180
 suspended = []
 count = 0
 
-def switch(count):
-    print "SWITCH"
-    oauth = OAuth(ACCESS_TOKEN[count], ACCESS_SECRET[count], CONSUMER_KEY[count], CONSUMER_SECRET[count])
-    twitter_stream = twitter.Twitter(auth=oauth)
-    try:
-        info = (twitter_stream.users.show(user_id=person))
-    except Exception as e:
-        print "Sleeping (Rate Limit)"
-        time.sleep(900)
+def switch():
+	global twitter_stream
+	global count
+	if count <7:
+		count+=1
+	else:
+		count = 0
+		print "Sleeping (Rate Limit: Count 0)"
+		time.sleep(900)
+	print "SWITCH: " + str(count)
+	oauth = OAuth(ACCESS_TOKEN[count], ACCESS_SECRET[count], CONSUMER_KEY[count], CONSUMER_SECRET[count])
+	twitter_stream = twitter.Twitter(auth=oauth)
+	print ACCESS_TOKEN[count] 
 
 #gather words from all tweets of all users from the network parameter
 def gather_words(network, mentioned):
@@ -133,6 +137,7 @@ def gather_mentioned(wordDict):
 #generate files corresponding to the tweets of users
 def mentioned_tweets(file_name):
 	global count
+	global twitter_stream
 	global rate_limit_check_remaining
 	if rate_limit_check_remaining < 5:
 		#print "SLEEP (rate limit)"
@@ -158,58 +163,58 @@ def mentioned_tweets(file_name):
 				time.sleep(900)
 			rate_limit_check_remaining -= 1
 			if remaining<5:
-				count+=1
-				switch(count)
+				switch()
 				# print "SLEEP (rate limit of user_timeline)"
 				# time.sleep(900)
 			elif remaining2 < 5:
-				count+=1
-				switch(count)
+				switch()
 				# print "SLEEP (rate limit of friend list)"
 				# time.sleep(900)
 			elif rate_limit_check_remaining<5:
-				count+=1
-				switch(count)
+				switch()
 				# print "SLEEP (rate limit of remaining count)"
 				# time.sleep(900)
 			username = line.strip('\n')
+			br = True
 			if username not in news_sources2:
-				try:
-					if not suspension_check(username):
-						p = (twitter_stream.users.show(screen_name=username))
-						protected = p['protected']
-						if not protected:
-							if username not in read_test:
-								f_used.write(username + '\n')
-								#print username
-							iterator = twitter_stream.statuses.user_timeline(screen_name=username,count=32000)
-							print username
-							f = open(file_name + "/"+ username + ".txt", "a")
-							#print "here1"
-							try:
-								#print "here2"
-								f2 = open(file_name + "/"+ username  + ".txt", "r")
-								read = []
-								for line in f2:
-									line = json.loads(line)
-									read.append(line['id']);
-								for tweet in iterator:
-									if tweet['id'] not in read:
-										f.write(json.dumps(tweet)+'\n')
-							except Exception as e:
-								print e
-								print "Unable to write"
-				except Exception as e:
-					print e
-					count+=1
-					switch(count)
-					#time.sleep(900)
+				while br:
+					try:
+						if not suspension_check(username):
+							p = (twitter_stream.users.show(screen_name=username))
+							protected = p['protected']
+							if not protected:
+								if username not in read_test:
+									f_used.write(username + '\n')
+									#print username
+								iterator = twitter_stream.statuses.user_timeline(screen_name=username,count=32000)
+								print username
+								f = open(file_name + "/"+ username + ".txt", "a")
+								#print "here1"
+								try:
+									#print "here2"
+									f2 = open(file_name + "/"+ username  + ".txt", "r")
+									read = []
+									for line in f2:
+										line = json.loads(line)
+										read.append(line['id']);
+									for tweet in iterator:
+										if tweet['id'] not in read:
+											f.write(json.dumps(tweet)+'\n')
+								except Exception as e:
+									print e
+									print "Unable to write"
+						br = False
+					except Exception as e:
+						print e
+						switch()
+						#time.sleep(900)
 
 				f_used.close;
 
 #check if a user has been suspended
 def suspension_check(name):
 	global suspended
+	global twitter_stream
 	global rate_limit_check_remaining
 	if rate_limit_check_remaining < 5:
 		count+=1
@@ -221,8 +226,7 @@ def suspension_check(name):
 	rate_limit_check_remaining -= 1	
 	remaining = rate_limit_status["resources"]["users"]["/users/show/:id"]["remaining"]
 	if remaining<5:
-		count+=1
-		switch(count)
+		switch()
 		# print "SLEEP (rate limit)"
 		# time.sleep(900)
 	try:
@@ -237,6 +241,7 @@ def suspension_check(name):
 #check if a user is protected
 def protected_check(name):
 	global rate_limit_check_remaining
+	global twitter_stream
 	if rate_limit_check_remaining < 5:
 		print "SLEEP (rate limit)"
 		rate_limit_check_remaining = 180
@@ -245,17 +250,18 @@ def protected_check(name):
 	rate_limit_check_remaining -= 1	
 	remaining = rate_limit_status["resources"]["users"]["/users/show/:id"]["remaining"]
 	if remaining<5:
-		count+=1
-		switch(count)
+		switch()
 		# print "SLEEP (rate limit)"
 		# time.sleep(900)
-	try:
-		p = twitter_stream.users.show(screen_name=name)
-	except:
-		count+=1
-		switch(count)
-		# print "SLEEP (except)"
-		# time.sleep(900)
+	br = True
+	while br:
+		try:
+			p = twitter_stream.users.show(screen_name=name)
+			br = False
+		except:
+			switch()
+			# print "SLEEP (except)"
+			# time.sleep(900)
 	return p['protected']
 
 #determine users in a network who are suspended
@@ -275,21 +281,20 @@ def gather_suspenders():
 
 
 #determine the ratio of Trump followers
-def trump_check(network):
-	f_main = open(network+"/names.txt", "r")
-	trump_followers = []
-	count = 1
-	for line in f_main:
-		count +=1
-		username = line[:-1]
-		if suspension_check(username) is False:
-			if protected_check(username) is False:
-				time.sleep(60)
-				i1 = (twitter_stream.friends.ids(screen_name=username))
-				ids_friends = i1['ids']
-				for id1 in ids_friends:
-					if id1 == 25073877:
-						trump_followers.append(ids_friends)
-	count = count*1.0
-	ratio = len(trump_followers)/count
-	return ratio
+# def trump_check(network):
+# 	global twitter_stream
+# 	f_main = open(network+"/names.txt", "r")
+# 	trump_followers = []
+# 	count = 1
+# 	for line in f_main:
+# 		username = line[:-1]
+# 		if suspension_check(username) is False:
+# 			if protected_check(username) is False:
+# 				i1 = (twitter_stream.friends.ids(screen_name=username))
+# 				ids_friends = i1['ids']
+# 				for id1 in ids_friends:
+# 					if id1 == 25073877:
+# 						trump_followers.append(ids_friends)
+# 	count = count*1.0
+# 	ratio = len(trump_followers)/count
+# 	return ratio, trump_followers
