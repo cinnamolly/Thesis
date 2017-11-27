@@ -109,6 +109,7 @@ def main():
 
 
     print "NOW GOING TO ITERATE: " + str(len(ids))
+    count = 0
     read_main = []
     br3=True
     for line in f_main_read:
@@ -123,13 +124,14 @@ def main():
             # time.sleep(900)
         while br3:
             try:
+                count+=1
                 p = (twitter_stream.users.show(user_id=person))
                 username = p['screen_name']
                 protected = p['protected']
                 if not protected:
                     iterator = twitter_stream.statuses.user_timeline(screen_name=username,count=32000)
                     if username not in read_main:
-                        print "writing " + username
+                        print "writing " + username + "; Iteration " + str(count) + "/" + str(len(ids))
                         f_main.write(username + "\n")
                     f = open("richardspencer_origin/"+ username + ".txt", "a")
                     try:
