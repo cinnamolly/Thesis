@@ -75,9 +75,9 @@ def main():
     print "CAPTURED" + str(captured)
 
     new_captured =[]
-    br2=True
     for x in range(0,2):
         for element in captured:
+            br2=True
             while br2:
                 try:
                     rate_limit_status = twitter_stream.application.rate_limit_status()
@@ -111,11 +111,11 @@ def main():
     print "NOW GOING TO ITERATE: " + str(len(ids))
     count = 0
     read_main = []
-    br3=True
     for line in f_main_read:
         line = line.strip('\n')
         read_main.append(line);
     for person in ids:
+        br3=True
         read_main.append(person)
         remaining = rate_limit_status["resources"]["users"]["/users/show/:id"]["remaining"]
         if remaining<5:
