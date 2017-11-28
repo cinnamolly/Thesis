@@ -80,7 +80,7 @@ def main():
     new_captured =[]
     for x in range(0,2):
         for element in captured:
-            if limit <900:
+            if limit <5000:
                 br2=True
                 while br2:
                     try:
