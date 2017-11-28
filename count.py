@@ -142,8 +142,7 @@ def mentioned_tweets(file_name):
 	if rate_limit_check_remaining < 5:
 		#print "SLEEP (rate limit)"
 		rate_limit_check_remaining = 180
-		count+=1
-		switch(count)
+		switch()
 		#time.sleep(900)
 	with open(file_name+"/names.txt") as f_main:
 		for line in f_main:
@@ -217,8 +216,7 @@ def suspension_check(name):
 	global twitter_stream
 	global rate_limit_check_remaining
 	if rate_limit_check_remaining < 5:
-		count+=1
-		switch(count)
+		switch()
 		#print "SLEEP (rate limit)"
 		rate_limit_check_remaining = 180
 		#time.sleep(900)
