@@ -17,7 +17,7 @@ ACCESS_SECRET = ['nZYUxVtZu69MfLVRKUDFK0T5UerH7GtCSvHnNwiKYz5yj','qvlIVS35OCf1Ur
 count = 0
 oauth = OAuth(ACCESS_TOKEN[0], ACCESS_SECRET[0], CONSUMER_KEY[0], CONSUMER_SECRET[0])
 twitter_stream = twitter.Twitter(auth=oauth)
-
+test=0
 def switch():
     global twitter_stream
     global count
@@ -33,7 +33,7 @@ def switch():
     print ACCESS_TOKEN[count] 
 
 def main():
-    limit = 500
+    limit = 0
     global twitter_stream
     global count
     f_main = open("richardspencer_origin/names.txt", "a")
@@ -78,9 +78,8 @@ def main():
     new_captured =[]
     for x in range(0,2):
         for element in captured:
-            if limit !=0:
+            if limit <900:
                 print limit
-                limit -=1
                 br2=True
                 while br2:
                     try:
@@ -101,6 +100,7 @@ def main():
                             for id1 in ids_friends:
                                 if id1 in ids_followers:
                                     if id1 not in ids:
+                                        limit+=1
                                         ids.append(id1)
                                         new_captured.append(id1)
                         br2=False
