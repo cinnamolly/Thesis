@@ -18,7 +18,9 @@ count = 0
 oauth = OAuth(ACCESS_TOKEN[0], ACCESS_SECRET[0], CONSUMER_KEY[0], CONSUMER_SECRET[0])
 twitter_stream = twitter.Twitter(auth=oauth)
 test=0
+limit = 0
 def switch():
+    global limit
     global twitter_stream
     global count
     if count <9:
@@ -33,7 +35,7 @@ def switch():
     print ACCESS_TOKEN[count] 
 
 def main():
-    limit = 0
+    global limit
     global twitter_stream
     global count
     f_main = open("richardspencer_origin/names.txt", "a")
@@ -79,7 +81,6 @@ def main():
     for x in range(0,2):
         for element in captured:
             if limit <900:
-                print limit
                 br2=True
                 while br2:
                     try:
@@ -103,6 +104,7 @@ def main():
                                         limit+=1
                                         ids.append(id1)
                                         new_captured.append(id1)
+                        print limit
                         br2=False
                     except Exception as e:
                         print e
@@ -116,7 +118,7 @@ def main():
 
 
     print "NOW GOING TO ITERATE: " + str(len(ids))
-    count = 0
+    c = 0
     read_main = []
     for line in f_main_read:
         line = line.strip('\n')
@@ -131,14 +133,14 @@ def main():
             # time.sleep(900)
         while br3:
             try:
-                count+=1
+                c+=1
                 p = (twitter_stream.users.show(user_id=person))
                 username = p['screen_name']
                 protected = p['protected']
                 if not protected:
                     iterator = twitter_stream.statuses.user_timeline(screen_name=username,count=32000)
                     if username not in read_main:
-                        print "writing " + username + "; Iteration " + str(count) + "/" + str(len(ids))
+                        print "writing " + username + "; Iteration " + str(c) + "/" + str(len(ids))
                         f_main.write(username + "\n")
                     f = open("richardspencer_origin/"+ username + ".txt", "a")
                     try:
