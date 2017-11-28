@@ -275,7 +275,7 @@ def gather_suspenders():
 	# 			print line
 	# 			f_write.write(line + '\n')
 	# 			suspended.append(line)
-	return suspended
+	return len(suspended), suspended
 
 
 #determine the ratio of Trump followers

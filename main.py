@@ -28,11 +28,11 @@ while True:
 	#print mentioned_freq_words
 	#gather suspended users
 	# print "gathering trump profiles\n"
-	# c, profiles = count.gather_suspenders()
-	print suspended
+	c, profiles = count.gather_suspenders()
+	#print suspended
 	print "gathering suspended profiles\n"
-	suspended = count.gather_suspenders()
-	print suspended
+	#suspended = count.gather_suspenders()
+	print profiles
 	print "storing information\n"
 	curr_time = strftime("%Y-%m-%d %H:%M:%S", gmtime())
 	storage = "{'time':"+ curr_time+", 'suspended':"+ str(suspended)+", 'maxwords_main':"+str(freq_words)+", 'maxwords_mentioned':"+str(mentioned_freq_words)+"}\n"
