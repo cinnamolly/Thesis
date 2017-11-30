@@ -8,8 +8,8 @@ f = open("cumulative_info.txt", "a")
 
 while True:
 	#gather RS network names
-	# print "gathering nodes from Richard Spencer Network\n"
-	# collect.main()
+	print "gathering nodes from Richard Spencer Network\n"
+	collect.main()
 	#collect frequent words from the RS network
 	print "gathering frequent words\n"
 	frequent_words = count.gather_words('richardspencer_origin', False)
