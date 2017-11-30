@@ -9,6 +9,8 @@ import twitter
 import os
 import time
 import operator
+import requests
+
 # Variables that contains the user credentials to access Twitter API 
 CONSUMER_KEY = ['fxXuwQ7nFDIZNSTvhVMAJ7Cpc','qLJrd7u7fVtFqnRgvYPaebdrz','mJSzhwpofJc5V2Az4NqRz2b18','0geqL4U1pwfC8JGbXilB4RtNU','1y1NlgyVoG5YKCszekhKdMTlv','8LVnYvp8gpX1AdMKwq541TWqf','4aj3DnlWh9jTqpyedzqNjFGls','hzImkAb1PClT6afQy0miQCvlo','epUENTX8TVuY2kRviGYhSHIiK', 'lo9pjYRvU5P9b3hnnwx4pvP4i']
 CONSUMER_SECRET = ['5ZCwhLKkd1dSPnBcq24a6g1uRjDHYrsEns07TPzfMJDkefZIj0','7rVTvqAQlBVKKgKuEV6WRWoWPFoXtp0K2KStzgcQ3xHqCaiV4g','SiWhNw9gkFwzl68FTbAhkBsjAyzrN72eavmIEDZ19EbKwoXYj4','ZkGLWeTCfJ2qyHwleOMs4Dnvc7cm1TGR4UZItw8L5iS7AYj0vT','vMwghzFmX3VU1mgXvoL8gYYD4LCPNiP6nFQqQ6vcDpMYqFK8Hu','cSOxoVGn0XxQGuJSOwQzmsDkXIaIKGCqgD28MSfetseApr5UcC','8WCMnlqFtxbJYKpOqj9caAhLO4ELsa2Vqx1bgaeRr957gWn5wf','ZMFYHq16vBTtP5EHgsmrRRXoQquBEjWQsGH1SdeW985LNEHhhA','8NbtV0BGzfhxiSEOTRRi47VYi5fiwt5JK8p3YpW93SdyrgjHpW', 'ND9osNijbp57y6rO9YzThH9nSJBdRD7sdPjlqo9guUZgB9d94U']
@@ -29,6 +31,7 @@ news_sources2 = ['alyssa_milano','erictrump','foxbusiness','sarahpalinusa','pier
 alt = ['jew', 'holocaust', 'holohoax', 'unbonjuif', 'juif', '1488', '1488RS', 'Heil', 'Heil Hitler', 'Cuckservative', '(((', ')))', 'Dindu Nuffin', 'Ghost Skin', 'Trumpwave', 'Deus Vult', 'Masculinist', 'God Emperor']
 rate_limit_check_remaining = 180
 suspended = []
+deactivated = []
 count = 0
 
 def switch():
@@ -60,29 +63,30 @@ def gather_words(network, mentioned):
 			l = line[:-1]
 		file_name = network + '/' + l + '.txt'
 		#print file_name
-		with open(file_name, "r") as f_temp:
-			read = []
-			for line in f_temp:
-				line = line.strip('\n')
-				read.append(line);
-			for tweet in read:
-				try:
-					#print tweet
-				 	t = json.loads(tweet)
-				 	tweet_text = (t['text']).split()
-				 	for word in tweet_text:
-				 		#remove words that are from the most common list of words in the English language
-				 		if word.lower() not in common_words:
-					 		if word.lower() in alt_words:
-					 			alt_words[word.lower()] = alt_words[word.lower()]+1
-					 		else:
-					 			alt_words[word.lower()] = 1
-					#print alt_words
-				except:
-					print "Interrupted [Tweet"
-		# except:
-		# 	#print l
-		# 	print "Account Does not Exist"
+		try:
+			with open(file_name, "r") as f_temp:
+				read = []
+				for line in f_temp:
+					line = line.strip('\n')
+					read.append(line);
+				for tweet in read:
+					try:
+						#print tweet
+					 	t = json.loads(tweet)
+					 	tweet_text = (t['text']).split()
+					 	for word in tweet_text:
+					 		#remove words that are from the most common list of words in the English language
+					 		if word.lower() not in common_words:
+						 		if word.lower() in alt_words:
+						 			alt_words[word.lower()] = alt_words[word.lower()]+1
+						 		else:
+						 			alt_words[word.lower()] = 1
+						#print alt_words
+					except:
+						print "Interrupted Tweet"
+		except:
+			#print l
+			print "Account Does not Exist"
 	return alt_words
 
 #sort words by # of mentions
@@ -139,13 +143,13 @@ def mentioned_tweets(file_name):
 	global count
 	global twitter_stream
 	global rate_limit_check_remaining
-	if rate_limit_check_remaining < 5:
-		#print "SLEEP (rate limit)"
-		rate_limit_check_remaining = 180
-		switch()
 		#time.sleep(900)
 	with open(file_name+"/names.txt") as f_main:
 		for line in f_main:
+			if rate_limit_check_remaining < 5:
+				print "top switch"
+				rate_limit_check_remaining = 180
+				switch()
 			f_used = open("mentioned_network/used_names.txt", "a")
 			f_used_read = open("mentioned_network/used_names.txt", "r")
 			read_test = []
@@ -162,14 +166,17 @@ def mentioned_tweets(file_name):
 				time.sleep(900)
 			rate_limit_check_remaining -= 1
 			if remaining<5:
+				print "switch 1"
 				switch()
 				# print "SLEEP (rate limit of user_timeline)"
 				# time.sleep(900)
 			elif remaining2 < 5:
+				print "switch 2"
 				switch()
 				# print "SLEEP (rate limit of friend list)"
 				# time.sleep(900)
 			elif rate_limit_check_remaining<5:
+				print "switch 3"
 				switch()
 				# print "SLEEP (rate limit of remaining count)"
 				# time.sleep(900)
@@ -181,30 +188,33 @@ def mentioned_tweets(file_name):
 						if not suspension_check(username):
 							p = (twitter_stream.users.show(screen_name=username))
 							protected = p['protected']
+							verified = p['verified']
 							if not protected:
-								if username not in read_test:
-									f_used.write(username + '\n')
-									#print username
-								iterator = twitter_stream.statuses.user_timeline(screen_name=username,count=32000)
-								print username
-								f = open(file_name + "/"+ username + ".txt", "a")
-								#print "here1"
-								try:
-									#print "here2"
-									f2 = open(file_name + "/"+ username  + ".txt", "r")
-									read = []
-									for line in f2:
-										line = json.loads(line)
-										read.append(line['id']);
-									for tweet in iterator:
-										if tweet['id'] not in read:
-											f.write(json.dumps(tweet)+'\n')
-								except Exception as e:
-									print e
-									print "Unable to write"
-						br = False
+								if not verified:
+									if username not in read_test:
+										f_used.write(username + '\n')
+										#print username
+									iterator = twitter_stream.statuses.user_timeline(screen_name=username,count=32000)
+									print username
+									f = open(file_name + "/"+ username + ".txt", "a")
+									#print "here1"
+									try:
+										#print "here2"
+										f2 = open(file_name + "/"+ username  + ".txt", "r")
+										read = []
+										for line in f2:
+											line = json.loads(line)
+											read.append(line['id']);
+										for tweet in iterator:
+											if tweet['id'] not in read:
+												f.write(json.dumps(tweet)+'\n')
+									except Exception as e:
+										print e
+										print "Unable to write"
+							br = False
 					except Exception as e:
 						print e
+						print "switch exception"
 						switch()
 						#time.sleep(900)
 
@@ -213,6 +223,7 @@ def mentioned_tweets(file_name):
 #check if a user has been suspended
 def suspension_check(name):
 	global suspended
+	global deactivated
 	global twitter_stream
 	global rate_limit_check_remaining
 	if rate_limit_check_remaining < 5:
@@ -227,13 +238,28 @@ def suspension_check(name):
 		switch()
 		# print "SLEEP (rate limit)"
 		# time.sleep(900)
+	if "," in name:
+		name.replace(",", "")
+	if "!" in name:
+		name.replace("!", "")
+	if "." in name:
+		name.replace(".", "")
+	if "?" in name:
+		name.replace("?", "")
+	if "-" in name:
+		name.replace("-", "")
 	try:
 		p = twitter_stream.users.show(screen_name=name)
 		#print "Not Suspended"
 		return False
 	except:
 		print "Suspended: " + name
-		suspended.append(name)
+		url = 'https://twitter.com/'+name
+		r = requests.get(url, allow_redirects=True)
+		if "suspended" in r.url:
+			suspended.append(name)
+		else:
+			deactivated.append(name)
 		return True
 
 #check if a user is protected
@@ -265,6 +291,7 @@ def protected_check(name):
 #determine users in a network who are suspended
 def gather_suspenders():
 	global suspended
+	global deactivated
 	# suspended = []
 	# f_write = open("suspended.txt", "a")
 	# with open("mentioned_network/names.txt") as f_main:
@@ -275,7 +302,7 @@ def gather_suspenders():
 	# 			print line
 	# 			f_write.write(line + '\n')
 	# 			suspended.append(line)
-	return len(suspended), suspended
+	return deactivated, suspended
 
 
 #determine the ratio of Trump followers

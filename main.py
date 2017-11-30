@@ -8,8 +8,8 @@ f = open("cumulative_info.txt", "a")
 
 while True:
 	#gather RS network names
-	print "gathering nodes from Richard Spencer Network\n"
-	collect.main()
+	# print "gathering nodes from Richard Spencer Network\n"
+	# collect.main()
 	#collect frequent words from the RS network
 	print "gathering frequent words\n"
 	frequent_words = count.gather_words('richardspencer_origin', False)
@@ -28,13 +28,14 @@ while True:
 	#print mentioned_freq_words
 	#gather suspended users
 	# print "gathering trump profiles\n"
-	c, profiles = count.gather_suspenders()
+	deactivated, suspended = count.gather_suspenders()
 	#print suspended
 	print "gathering suspended profiles\n"
 	#suspended = count.gather_suspenders()
-	print profiles
+	print suspended
+	print deactivated
 	print "storing information\n"
 	curr_time = strftime("%Y-%m-%d %H:%M:%S", gmtime())
-	storage = "{'time':"+ curr_time+", 'suspended':"+ str(suspended)+", 'maxwords_main':"+str(freq_words)+", 'maxwords_mentioned':"+str(mentioned_freq_words)+"}\n"
+	storage = "{'time':"+ curr_time+", 'suspended':"+ str(suspended)+", 'deactivated':" + str(deactivated) + ", 'maxwords_main':"+str(freq_words)+", 'maxwords_mentioned':"+str(mentioned_freq_words)+"}\n"
 	#print storage
 	f.write(storage)
