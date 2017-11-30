@@ -116,7 +116,7 @@ def main():
             # time.sleep(900)
         captured=new_captured
 
-
+    limit_2 = 0
     print "NOW GOING TO ITERATE: " + str(len(ids))
     c = 0
     read_main = []
@@ -124,41 +124,43 @@ def main():
         line = line.strip('\n')
         read_main.append(line);
     for person in ids:
-        br3=True
-        read_main.append(person)
-        remaining = rate_limit_status["resources"]["users"]["/users/show/:id"]["remaining"]
-        if remaining<5:
-            switch()
-            # print "Sleeping (Rate Limit)"
-            # time.sleep(900)
-        while br3:
-            try:
-                c+=1
-                p = (twitter_stream.users.show(user_id=person))
-                username = p['screen_name']
-                protected = p['protected']
-                if not protected:
-                    iterator = twitter_stream.statuses.user_timeline(screen_name=username,count=32000)
-                    if username not in read_main:
-                        print "writing " + username + "; Iteration " + str(c) + "/" + str(len(ids))
-                        f_main.write(username + "\n")
-                    f = open("richardspencer_origin/"+ username + ".txt", "a")
-                    try:
-                        f2 = open("richardspencer_origin/"+ username + ".txt", "r")
-                        read = []
-                        for line in f2:
-                            line = json.loads(line)
-                            read.append(line['id']);
-                        for tweet in iterator:
-                            if tweet['id'] not in read:
-                                f.write(json.dumps(tweet)+'\n')
-                    except:
-                        for tweet in iterator:
-                            f.write(json.dumps(tweet)+'\n')
-                f.close()
-                br3=False
-            except Exception as e:
-                print e
+        if limit_2 < 2000:
+            br3=True
+            read_main.append(person)
+            remaining = rate_limit_status["resources"]["users"]["/users/show/:id"]["remaining"]
+            if remaining<5:
                 switch()
-            # print "Rate Limiting - Sleeping"
-            # time.sleep(900)
+                # print "Sleeping (Rate Limit)"
+                # time.sleep(900)
+            while br3:
+                try:
+                    c+=1
+                    p = (twitter_stream.users.show(user_id=person))
+                    username = p['screen_name']
+                    protected = p['protected']
+                    if not protected:
+                        limit_2+=1
+                        iterator = twitter_stream.statuses.user_timeline(screen_name=username,count=32000)
+                        if username not in read_main:
+                            print "writing " + username + "; Iteration " + str(c) + "/" + str(len(ids))
+                            f_main.write(username + "\n")
+                        f = open("richardspencer_origin/"+ username + ".txt", "a")
+                        try:
+                            f2 = open("richardspencer_origin/"+ username + ".txt", "r")
+                            read = []
+                            for line in f2:
+                                line = json.loads(line)
+                                read.append(line['id']);
+                            for tweet in iterator:
+                                if tweet['id'] not in read:
+                                    f.write(json.dumps(tweet)+'\n')
+                        except:
+                            for tweet in iterator:
+                                f.write(json.dumps(tweet)+'\n')
+                    f.close()
+                    br3=False
+                except Exception as e:
+                    print e
+                    switch()
+                # print "Rate Limiting - Sleeping"
+                # time.sleep(900)
