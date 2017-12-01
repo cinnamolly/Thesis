@@ -222,7 +222,7 @@ def mentioned_tweets(file_name):
 										except Exception as e:
 											print e
 											print "Unable to write"
-								br = False
+							br = False
 						except Exception as e:
 							print e
 							print "switch exception"
@@ -254,12 +254,13 @@ def suspension_check(name):
 		#print "Not Suspended"
 		return False
 	except:
-		print "Suspended: " + name
 		url = 'https://twitter.com/'+name
 		r = requests.get(url, allow_redirects=True)
 		if "suspended" in r.url:
+			print "Suspended: " + name
 			suspended.append(name)
 		else:
+			print "Deactivated: " + name
 			deactivated.append(name)
 		return True
 
