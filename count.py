@@ -177,6 +177,7 @@ def mentioned_tweets(file_name):
 				# time.sleep(900)
 			elif rate_limit_check_remaining<5:
 				print "switch 3"
+				rate_limit_check_remaining = 180
 				switch()
 				# print "SLEEP (rate limit of remaining count)"
 				# time.sleep(900)
@@ -192,6 +193,7 @@ def mentioned_tweets(file_name):
 				username = username.replace("?", "")
 			if "-" in username:
 				username = username.replace("-", "")
+			print "UPDATED NAME: " + username
 			if len(username)>0:
 				if username not in news_sources2:
 					while br:
@@ -239,9 +241,9 @@ def suspension_check(name):
 	global rate_limit_check_remaining
 	if rate_limit_check_remaining < 5:
 		print "suspension switch 1"
+		rate_limit_check_remaining = 180
 		switch()
 		#print "SLEEP (rate limit)"
-		rate_limit_check_remaining = 180
 		#time.sleep(900)
 	rate_limit_status = twitter_stream.application.rate_limit_status()
 	rate_limit_check_remaining -= 1	
