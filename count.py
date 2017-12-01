@@ -182,43 +182,54 @@ def mentioned_tweets(file_name):
 				# time.sleep(900)
 			username = line.strip('\n')
 			br = True
-			if username not in news_sources2:
-				while br:
-					try:
-						if not suspension_check(username):
-							p = (twitter_stream.users.show(screen_name=username))
-							protected = p['protected']
-							verified = p['verified']
-							if not protected:
-								if not verified:
-									if username not in read_test:
-										f_used.write(username + '\n')
-										#print username
-									iterator = twitter_stream.statuses.user_timeline(screen_name=username,count=32000)
-									print username
-									f = open(file_name + "/"+ username + ".txt", "a")
-									#print "here1"
-									try:
-										#print "here2"
-										f2 = open(file_name + "/"+ username  + ".txt", "r")
-										read = []
-										for line in f2:
-											line = json.loads(line)
-											read.append(line['id']);
-										for tweet in iterator:
-											if tweet['id'] not in read:
-												f.write(json.dumps(tweet)+'\n')
-									except Exception as e:
-										print e
-										print "Unable to write"
-							br = False
-					except Exception as e:
-						print e
-						print "switch exception"
-						switch()
-						#time.sleep(900)
+			if "," in username:
+				username.replace(",", "")
+			if "!" in username:
+				username.replace("!", "")
+			if "." in username:
+				username.replace(".", "")
+			if "?" in username:
+				username.replace("?", "")
+			if "-" in username:
+				username.replace("-", "")
+			if len(username)>0:
+				if username not in news_sources2:
+					while br:
+						try:
+							if not suspension_check(username):
+								p = (twitter_stream.users.show(screen_name=username))
+								protected = p['protected']
+								verified = p['verified']
+								if not protected:
+									if not verified:
+										if username not in read_test:
+											f_used.write(username + '\n')
+											#print username
+										iterator = twitter_stream.statuses.user_timeline(screen_name=username,count=32000)
+										print username
+										f = open(file_name + "/"+ username + ".txt", "a")
+										#print "here1"
+										try:
+											#print "here2"
+											f2 = open(file_name + "/"+ username  + ".txt", "r")
+											read = []
+											for line in f2:
+												line = json.loads(line)
+												read.append(line['id']);
+											for tweet in iterator:
+												if tweet['id'] not in read:
+													f.write(json.dumps(tweet)+'\n')
+										except Exception as e:
+											print e
+											print "Unable to write"
+								br = False
+						except Exception as e:
+							print e
+							print "switch exception"
+							switch()
+							#time.sleep(900)
 
-				f_used.close;
+					f_used.close;
 
 #check if a user has been suspended
 def suspension_check(name):
@@ -238,16 +249,6 @@ def suspension_check(name):
 		switch()
 		# print "SLEEP (rate limit)"
 		# time.sleep(900)
-	if "," in name:
-		name.replace(",", "")
-	if "!" in name:
-		name.replace("!", "")
-	if "." in name:
-		name.replace(".", "")
-	if "?" in name:
-		name.replace("?", "")
-	if "-" in name:
-		name.replace("-", "")
 	try:
 		p = twitter_stream.users.show(screen_name=name)
 		#print "Not Suspended"
