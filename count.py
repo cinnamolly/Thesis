@@ -183,15 +183,15 @@ def mentioned_tweets(file_name):
 			username = line.strip('\n')
 			br = True
 			if "," in username:
-				username.replace(",", "")
+				username = username.replace(",", "")
 			if "!" in username:
-				username.replace("!", "")
+				username = username.replace("!", "")
 			if "." in username:
-				username.replace(".", "")
+				username = username.replace(".", "")
 			if "?" in username:
-				username.replace("?", "")
+				username = username.replace("?", "")
 			if "-" in username:
-				username.replace("-", "")
+				username = username.replace("-", "")
 			if len(username)>0:
 				if username not in news_sources2:
 					while br:
@@ -238,6 +238,7 @@ def suspension_check(name):
 	global twitter_stream
 	global rate_limit_check_remaining
 	if rate_limit_check_remaining < 5:
+		print "suspension switch 1"
 		switch()
 		#print "SLEEP (rate limit)"
 		rate_limit_check_remaining = 180
@@ -246,6 +247,7 @@ def suspension_check(name):
 	rate_limit_check_remaining -= 1	
 	remaining = rate_limit_status["resources"]["users"]["/users/show/:id"]["remaining"]
 	if remaining<5:
+		print "suspension switch 2"
 		switch()
 		# print "SLEEP (rate limit)"
 		# time.sleep(900)
