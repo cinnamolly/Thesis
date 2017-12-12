@@ -28,3 +28,5 @@ for d in deactivated:
 			results.append(s_name)
 	except:
 		print "not present"
+
+print results
